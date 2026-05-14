@@ -1,0 +1,623 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A heartfelt tribute website for Pramatma Vishwakarma, Python Programming Mentor." />
+  <meta name="theme-color" content="#05070f" />
+  <title>Thank You, Mr. Pramatma Vishwakarma</title>
+  <style>
+    :root {
+      --bg: #05070f;
+      --bg-soft: #0b1120;
+      --card: rgba(14, 22, 38, 0.58);
+      --card-strong: rgba(11, 17, 30, 0.72);
+      --line: rgba(127, 196, 255, 0.25);
+      --text: #e7f4ff;
+      --muted: #a9bfd6;
+      --neon: #66c6ff;
+      --neon-strong: #35b7ff;
+      --shadow: 0 0 30px rgba(81, 182, 255, 0.26);
+      --radius: 18px;
+      --transition: 320ms ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: #05070f;
+      overscroll-behavior: none;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(53, 183, 255, 0.18), transparent 34%),
+        radial-gradient(circle at 85% 20%, rgba(102, 198, 255, 0.12), transparent 30%),
+        radial-gradient(circle at 20% 80%, rgba(53, 183, 255, 0.1), transparent 35%),
+        linear-gradient(140deg, #05070f 0%, #070d18 50%, #03060d 100%);
+      font-family: "Segoe UI", "Inter", "SF Pro Text", system-ui, sans-serif;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+    }
+
+    body.intro-lock {
+      height: 100vh;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .welcome-screen,
+    .main-site {
+      width: 100%;
+    }
+
+    .welcome-screen {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+      transition: opacity 600ms ease, visibility 600ms ease;
+    }
+
+    .welcome-card {
+      width: min(780px, 100%);
+      background: var(--card-strong);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: clamp(1.3rem, 2.5vw, 2rem);
+      text-align: center;
+      animation: rise 900ms ease both;
+    }
+
+    @supports (min-height: 100dvh) {
+      .welcome-screen,
+      .main-site {
+        min-height: 100dvh;
+      }
+
+      body.intro-lock {
+        height: 100dvh;
+      }
+    }
+
+    .welcome-title {
+      font-size: clamp(1.5rem, 3.3vw, 2.25rem);
+      line-height: 1.28;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.2rem;
+      text-wrap: balance;
+    }
+
+    .terminal {
+      width: 100%;
+      text-align: left;
+      background: rgba(8, 13, 24, 0.86);
+      border: 1px solid rgba(102, 198, 255, 0.22);
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 0 auto 1.3rem;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .terminal-top {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid rgba(127, 196, 255, 0.2);
+      background: rgba(21, 31, 52, 0.55);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      opacity: 0.9;
+    }
+
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+
+    .terminal-body {
+      font-family: "Consolas", "JetBrains Mono", "Fira Code", monospace;
+      font-size: clamp(0.92rem, 2.2vw, 1rem);
+      line-height: 1.6;
+      padding: 1rem;
+      min-height: 122px;
+      color: #d7ecff;
+      white-space: pre-wrap;
+    }
+
+    .line-prompt {
+      color: #6de9a5;
+    }
+
+    .line-code {
+      color: #9ad2ff;
+    }
+
+    .output {
+      color: #ffffff;
+      text-shadow: 0 0 12px rgba(154, 210, 255, 0.55);
+    }
+
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid rgba(102, 198, 255, 0.42);
+      background: linear-gradient(145deg, rgba(34, 68, 111, 0.52), rgba(16, 30, 54, 0.82));
+      color: #eaf6ff;
+      padding: 0.72rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.97rem;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+      box-shadow: 0 0 18px rgba(102, 198, 255, 0.35);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 28px rgba(102, 198, 255, 0.55);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
+    }
+
+    .main-site {
+      min-height: 100vh;
+      padding: clamp(1.2rem, 3.5vw, 2.5rem);
+      opacity: 0;
+      visibility: hidden;
+      display: none;
+      transform: translateY(26px);
+      transition: opacity 700ms ease, visibility 700ms ease, transform 700ms ease;
+      position: relative;
+      isolation: isolate;
+      pointer-events: none;
+    }
+
+    .main-site.active {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .top-title {
+      width: min(1150px, 100%);
+      margin: 0 auto clamp(0.9rem, 2vw, 1.3rem);
+      text-align: center;
+      font-size: clamp(1.25rem, 2.9vw, 1.9rem);
+      letter-spacing: 0.02em;
+      color: #eef8ff;
+      text-shadow: 0 0 18px rgba(102, 198, 255, 0.35);
+      position: relative;
+      z-index: 2;
+    }
+
+    .code-float {
+      position: absolute;
+      font-family: "Consolas", "JetBrains Mono", monospace;
+      color: rgba(124, 196, 255, 0.18);
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      animation: drift linear infinite;
+      white-space: pre;
+      will-change: transform;
+    }
+
+    .code-float.one { top: 10%; left: 4%; animation-duration: 16s; }
+    .code-float.two {
+      top: 34%;
+      right: 3%;
+      animation-duration: 19s;
+      color: rgba(120, 220, 255, 0.32);
+      text-shadow: 0 0 16px rgba(77, 198, 255, 0.26);
+    }
+    .code-float.three { bottom: 9%; left: 10%; animation-duration: 21s; }
+    .code-float.four { top: 18%; right: 20%; animation-duration: 17s; color: rgba(110, 222, 255, 0.2); }
+    .code-float.five { bottom: 10%; right: 8%; animation-duration: 23s; color: rgba(110, 222, 255, 0.2); }
+    .code-float.six { top: 66%; left: 4%; animation-duration: 20s; color: rgba(110, 222, 255, 0.2); }
+    .code-float.seven { top: 14%; left: 34%; animation-duration: 18s; color: rgba(110, 222, 255, 0.24); }
+    .code-float.eight { bottom: 34%; left: 6%; animation-duration: 22s; color: rgba(110, 222, 255, 0.22); }
+    .code-float.nine { top: 52%; right: 18%; animation-duration: 24s; color: rgba(110, 222, 255, 0.2); }
+
+    .layout {
+      width: min(1150px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: clamp(1rem, 2.2vw, 2rem);
+      align-items: stretch;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: clamp(1.1rem, 2.7vw, 1.8rem);
+      animation: rise 900ms ease both;
+    }
+
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .welcome-card,
+      .card {
+        background: rgba(10, 16, 28, 0.92);
+      }
+    }
+
+    .profile {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      gap: 1rem;
+    }
+
+    .photo {
+      width: min(270px, 75vw);
+      aspect-ratio: 1 / 1;
+      border-radius: 20px;
+      border: 1px solid rgba(102, 198, 255, 0.6);
+      background:
+        radial-gradient(circle at 28% 22%, rgba(102, 198, 255, 0.24), transparent 42%),
+        linear-gradient(145deg, #0e1a2f, #0a1426 60%, #07101f);
+      box-shadow: 0 0 26px rgba(102, 198, 255, 0.5);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+      letter-spacing: 0.02em;
+      overflow: hidden;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .name {
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      line-height: 1.28;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      background: linear-gradient(90deg, #9adfff 0%, #66c6ff 45%, #b2ebff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow:
+        0 0 10px rgba(102, 198, 255, 0.55),
+        0 0 24px rgba(102, 198, 255, 0.5),
+        0 0 36px rgba(53, 183, 255, 0.38);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid rgba(138, 217, 255, 0.95);
+      outline-offset: 3px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      letter-spacing: 0.02em;
+      font-size: 1rem;
+    }
+
+    .glow-tag {
+      display: inline-block;
+      margin-top: 0.2rem;
+      padding: 0.36rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(102, 198, 255, 0.55);
+      color: #dff3ff;
+      background: linear-gradient(135deg, rgba(18, 34, 58, 0.8), rgba(23, 49, 78, 0.7));
+      box-shadow: 0 0 16px rgba(102, 198, 255, 0.45);
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+    }
+
+    .message {
+      display: grid;
+      align-content: center;
+      gap: 1rem;
+    }
+
+    .message h2 {
+      font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+      color: #f0f8ff;
+    }
+
+    .message p {
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      line-height: 1.8;
+      color: #d4e6f8;
+    }
+
+    .ending {
+      width: min(1150px, 100%);
+      margin: clamp(1rem, 3vw, 1.8rem) auto 0;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hindi-section {
+      width: min(1150px, 100%);
+      margin: clamp(1rem, 2.6vw, 1.7rem) auto 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hindi-section h3 {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      margin-bottom: 0.65rem;
+      color: #eaf7ff;
+    }
+
+    .hindi-section p {
+      font-size: clamp(0.98rem, 1.9vw, 1.08rem);
+      line-height: 1.9;
+      color: #d9ebff;
+      white-space: pre-line;
+    }
+
+    blockquote {
+      font-size: clamp(1.03rem, 2.1vw, 1.25rem);
+      line-height: 1.7;
+      color: #e8f5ff;
+      background: rgba(12, 20, 34, 0.66);
+      border: 1px solid rgba(102, 198, 255, 0.28);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    footer {
+      text-align: center;
+      color: #b5cadf;
+      margin-top: 1rem;
+      font-size: 0.96rem;
+      padding-bottom: 0.7rem;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes drift {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-18px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @media (max-width: 920px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .message {
+        text-align: center;
+      }
+
+      .code-float.two,
+      .code-float.five,
+      .code-float.nine {
+        display: none;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .terminal-body {
+        min-height: 140px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .welcome-card,
+      .card,
+      blockquote {
+        border-radius: 14px;
+      }
+
+      .welcome-screen {
+        padding: 1rem;
+      }
+
+      .main-site {
+        padding: 1rem;
+      }
+
+      .name {
+        white-space: normal;
+      }
+
+      .code-float {
+        font-size: 0.76rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="intro-lock">
+  <section class="welcome-screen" id="welcomeScreen">
+    <div class="welcome-card">
+      <h1 class="welcome-title">Thank You For Everything, Mr. Pramatma Vishwakarma.</h1>
+      <div class="terminal" aria-label="Python terminal">
+        <div class="terminal-top">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="terminal-body" id="terminalBody"><span class="line-prompt">&gt;&gt;&gt; </span><span class="line-code">print("Hello Sir ❤️")</span></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="runBtn" type="button" aria-label="Run Python greeting">Run</button>
+        <button class="btn hidden" id="continueBtn" type="button" aria-label="Open tribute page">Press To Continue</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="main-site" id="mainSite">
+    <audio id="bgSong" preload="metadata">
+      <source src="./tribute-song.mp3" type="audio/mpeg" />
+    </audio>
+    <h2 class="top-title">Thank You Sir For Everything</h2>
+    <pre class="code-float one">while(True):
+    remember_sir()</pre>
+    <pre class="code-float two">def teacher_impact():
+    return "forever"</pre>
+    <pre class="code-float three">for day in life:
+    keep_learning()</pre>
+    <pre class="code-float four"># respect_mode = True
+remember_param_sir()</pre>
+    <pre class="code-float five">if mentor:
+    gratitude += 1</pre>
+    <pre class="code-float six">class Teacher:
+    name = "Param Sir"</pre>
+    <pre class="code-float seven">mentor = "Param Sir"
+vibe = "different"</pre>
+    <pre class="code-float eight">if class_time:
+    learn_with_smile()</pre>
+    <pre class="code-float nine">print("Respect + Gratitude")</pre>
+
+    <section class="layout">
+      <article class="card profile">
+        <div class="photo" role="img" aria-label="Photo of Mr. Pramatma Vishwakarma">
+          <img src="./sir-photo.jpeg" alt="Mr. Pramatma Vishwakarma" loading="lazy" decoding="async" />
+        </div>
+        <h2 class="name">Pramatma Vishwakarma</h2>
+        <div class="glow-tag">Param Sir</div>
+        <p class="subtitle">Python Programming Mentor</p>
+      </article>
+
+      <article class="card message">
+        <h2>With Gratitude</h2>
+        <p>
+          Thank you for teaching us not only Python, but also problem solving, confidence and discipline.
+          Your guidance and teaching will always inspire us.
+        </p>
+      </article>
+    </section>
+
+    <section class="hindi-section">
+      <article class="card">
+        <h3>Message from Heart</h3>
+        <p>
+          Sir, जितना भी समय हम सबने आपके साथ बिताया, आपने कभी हमें “Sir” बोलने पर ज़ोर नहीं दिया। आपने हमेशा भाईचारे और अपनापन सिखाया। शायद यही वजह है कि आज भी हम सबसे पहले आपको “भाई” कहकर ही याद करते हैं।
+
+          आपकी vibe बाकी सभी teachers से हमेशा अलग रही। हाथों में photos और videos होना अलग बात है, लेकिन किसी के साथ एक सच्चा connection और vibe बन जाना बिल्कुल अलग बात होती है।
+
+          चाहे आपने पूरी class को गुस्से में खड़ा किया हो, या फिर मस्ती-मजाक में जल्दी छुट्टी दे दी हो — हर moment अपने आप में यादगार था।
+
+          आपके साथ बिताया हुआ समय हमारे लिए सिर्फ classes नहीं था, बल्कि एक ऐसी याद थी जो हमेशा दिल में रहेगी। ❤️
+        </p>
+      </article>
+    </section>
+
+    <section class="ending">
+      <blockquote>
+        “Every great programmer was once inspired by a great teacher.”
+      </blockquote>
+      <footer>Made with Respect by YOUR Student Divyansh Shukla ❤️</footer>
+    </section>
+  </main>
+
+  <script>
+    const runBtn = document.getElementById("runBtn");
+    const continueBtn = document.getElementById("continueBtn");
+    const terminalBody = document.getElementById("terminalBody");
+    const welcomeScreen = document.getElementById("welcomeScreen");
+    const mainSite = document.getElementById("mainSite");
+    const bgSong = document.getElementById("bgSong");
+
+    let hasRun = false;
+    let queuedStartAt = null;
+
+    if (bgSong) {
+      bgSong.addEventListener("loadedmetadata", () => {
+        if (queuedStartAt !== null) {
+          bgSong.currentTime = Math.min(queuedStartAt, bgSong.duration || queuedStartAt);
+          queuedStartAt = null;
+        }
+      });
+    }
+
+    runBtn.addEventListener("click", () => {
+      if (hasRun) return;
+      hasRun = true;
+
+      terminalBody.innerHTML =
+        '<span class="line-prompt">&gt;&gt;&gt; </span><span class="line-code">print("Hello Sir ❤️")</span>\n' +
+        '<span class="output">Hello Sir ❤️</span>';
+
+      runBtn.textContent = "Executed";
+      runBtn.style.opacity = "0.75";
+      continueBtn.classList.remove("hidden");
+    });
+
+    continueBtn.addEventListener("click", () => {
+      welcomeScreen.style.display = "none";
+      mainSite.classList.add("active");
+      document.body.classList.remove("intro-lock");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      if (bgSong) {
+        if (bgSong.readyState >= 1) {
+          bgSong.currentTime = Math.min(35, bgSong.duration || 35);
+        } else {
+          queuedStartAt = 35;
+        }
+        bgSong.play().catch(() => {
+          // Playback can fail if browser policy blocks it.
+        });
+      }
+    });
+  </script>
+</body>
+</html>
