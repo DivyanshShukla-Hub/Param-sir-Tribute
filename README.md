@@ -1,4 +1,4 @@
-## Tribute Website for Pramatma Vishwakarma
+### Tribute Website for Pramatma Vishwakarma
 
 A heartfelt one-page tribute website made with respect for our Python Programming Mentor, **Pramatma Vishwakarma**.
 
