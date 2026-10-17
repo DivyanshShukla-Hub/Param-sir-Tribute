@@ -24,6 +24,7 @@ Add your live link here after deployment:
 - CSS3
 - JavaScript (Vanilla)
 
+
 ## Project Structure
 - `index.html` — Main website file
 - `sir-photo.jpeg` — Sir’s photo
